@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Calculator, BookOpen, Beaker, Globe } from 'lucide-react';
 
 interface ContentAreaProps {
@@ -6,18 +6,38 @@ interface ContentAreaProps {
   title: string;
   description: string;
   buttonText: string;
-  buttonLink: string;
+  subject: string;
 }
 
-const ContentArea: React.FC<ContentAreaProps> = ({ svgContent, title, description, buttonText, buttonLink }) => (
+const GenerateWorksheet = async (subject:string) => {
+
+    try {
+    const response = await fetch("/api/generate", {
+        method: "POST",
+        body: subject,
+    })
+
+    if (!response.ok) {
+        throw new Error("Failed to generate worksheet")
+    }
+
+    const data = await response.json()
+    } catch (error) {
+    console.error("Error generating flashcards:", error)
+    alert("An error occurred while generating flashcards. Please try again.")
+    }
+}
+
+
+const ContentArea: React.FC<ContentAreaProps> = ({ svgContent, title, description, buttonText, subject }) => (
   <div className="content-area flex-1 m-2 min-w-[300px]">
       <div className="content-wrapper border-2 border-[#333] p-5 h-full overflow-hidden relative">
           {svgContent}
           <h1 className="text-2xl mb-4">{title}</h1>
           <p className="text-sm leading-6 mb-4">{description}</p>
-          <a href={buttonLink} className="cta-button inline-block bg-[#333] text-white py-2 px-5 rounded font-bold">
-              {buttonText}
-          </a>
+          <button onClick={GenerateWorksheet(subject)} className="cta-button inline-block bg-[#333] text-white py-2 px-5 rounded font-bold">
+              Start Now
+          </button>
       </div>
   </div>
 );
@@ -55,7 +75,7 @@ const subjectSections = [
       title: 'Welcome to Math',
       description: 'Click to begin your challenge! As you answer questions correctly, the difficulty will increase, pushing you to improve continually. Make it a goal to progress every day, as consistent practice is key. Remember, math is an essential skill that benefits everyone, so give it your best effort and watch your abilities grow over time.',
       buttonText: 'Start Now',
-      buttonLink: '#',
+      subject: 'Math',
   },
   {
       svgContent: (
@@ -77,7 +97,7 @@ const subjectSections = [
       title: 'Welcome to English',
       description: 'Start your English challenge here! As you progress, you\'ll encounter more complex language tasks, enhancing your skills. Aim to practice regularly, as consistency is crucial for language improvement. English proficiency opens doors to countless opportunities, so put in your best effort and watch your language abilities flourish.',
       buttonText: 'Start Now',
-      buttonLink: '#',
+      subject: 'English',
   },
   {
       svgContent: (
@@ -121,6 +141,8 @@ const featureColumns = [
 ];
 
 export default function LearningPlatform() {
+
+
   return (
     <div className="bg-[#05192d] text-[#333] min-h-screen">
             <header className="py-5">

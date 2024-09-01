@@ -111,8 +111,7 @@ export default function Home() {
                 Embark on a transformative learning journey with StudyAI. Our cutting-edge AI technology simplifies complex topics, personalizes your study experience, and helps you achieve your academic goals with ease. Say goodbye to study struggles and hello to effortless learning!
               </p>
               <div className="flex justify-center gap-5">
-                <a href="#" className="inline-block px-7 py-3 bg-[#03ef62] text-[#05192d] rounded font-bold text-lg transition-all hover:bg-[#02d656] transform hover:-translate-y-1">Start Your Journey</a>
-                <a href="#" className="inline-block px-7 py-3 text-white rounded font-bold text-lg border-2 border-white transition-all hover:bg-white hover:bg-opacity-10 transform hover:-translate-y-1">Explore Features</a>
+                <a href="/subjects" className="inline-block px-7 py-3 bg-[#03ef62] text-[#05192d] rounded font-bold text-lg transition-all hover:bg-[#02d656] transform hover:-translate-y-1">Start Your Journey</a>
               </div>
             </div>
             <div className="w-1/2 h-96 flex justify-center items-center text-xl text-white relative z-20">

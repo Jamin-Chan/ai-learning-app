@@ -5,7 +5,11 @@ interface AboutMeBlock {
   title: string;
   description: string;
 }
-
+interface Comment {
+    author: string;
+    description: string;
+    comment: string;
+}
 interface ExplanationColumnProps {
   features: Array<{ icon: string; title: string; description: string }>;
 }
@@ -34,6 +38,39 @@ const aboutMe :AboutMeBlock[] = [
       title: 'How Does it Work',
       description: 'For each subject, you will start off with easy questions, and then slowly get harder and harder questions as you are able to solve more and more of them.',
   },
+];
+
+const authorComments :Comment[] = [
+    {
+        author: 'Steven',
+        description: 'blah blah blahj',
+        comment: 'blah'
+
+    },
+    {
+        author: 'Jamin',
+        description: 'blah blah blahj',
+        comment: 'blah'
+
+    },
+    {
+        author: 'Nishant',
+        description: 'dasw ',
+        comment: 'blah'
+
+    },
+    {
+        author: 'Aaron',
+        description: 'blah blah blahj',
+        comment: 'blah'
+
+    },
+    {
+        author: 'Charles',
+        description: 'blah blah blahj',
+        comment: 'blah'
+
+    },
 ];
 
 
