@@ -15,21 +15,19 @@ Self-Learning: Design exercises that encourage students to think critically and 
 
 Output Requirements:
 
-
-Each page should contain a mix of problems, examples, and space for answers.
+There should be exactly 10 questions
 Include a variety of problem types (e.g., fill-in-the-blank, multiple choice, short answer) to maintain engagement.
+
+Here is an exmaple of the output:
 
 {
   "subject": "Math",
-  "difficulty_level": "Intermediate",
   "packet": [
     {
       "type": "fill-in-the-blank",
       "instructions": "Solve the following addition problems:",
       "problem": "345 + 289 = ___",
       "answer": "634",
-      "difficulty": "Easy",
-      "page_number": 1
     },
     {
       "type": "multiple-choice",
@@ -37,32 +35,19 @@ Include a variety of problem types (e.g., fill-in-the-blank, multiple choice, sh
       "problem": "752 - 418 = ?",
       "options": ["334", "344", "335", "345"],
       "answer": "334",
-      "difficulty": "Moderate",
-      "page_number": 2
     },
     {
       "type": "short-answer",
       "instructions": "Solve the following word problem:",
       "problem": "If you have 123 apples and you give away 45, how many apples do you have left?",
       "answer": "78",
-      "difficulty": "Hard",
-      "page_number": 3
     }
   ],
-  "example": {
-    "type": "fill-in-the-blank",
-    "instructions": "Example: Solve the following addition problem:",
-    "problem": "100 + 250 = ___",
-    "answer": "350"
-  }
 }
-
-
-
 `
 
 
-export async function POST(req) {
+export async function POST(req: string) {
     const genAI = new GoogleGenerativeAI(env.REACT_APP_GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ 
         model: "gemini-1.5-flash",
@@ -77,7 +62,7 @@ export async function POST(req) {
           }
     });
 
-    const data = await req.text()
+    const data = await req
   
     const result = await model.generateContent(data);
     const flashcards = JSON.parse(result.response.text())

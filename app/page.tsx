@@ -2,22 +2,30 @@
 
 import React, { useState } from 'react';
 import { BookOpen, Rocket, Users } from 'lucide-react';
+import { SignedIn, SignedOut, UserButton, useUser, SignIn, SignUp } from "@clerk/nextjs";
+interface Plan {
+  title: string;
+  price: string;
+  features: string[];
+  popular: boolean;
+ }
+ 
 
 export default function Home() {
   const [showSignUp, setShowSignUp] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
 
-  const PricingCard = ({ title, price, features, popular }) => (
-    <div className={`bg-white text-black rounded-lg shadow-md p-4 flex flex-col ${popular ? 'border-2 border-blue-500' : ''} w-full`}>
-      {popular && (
+  const PricingCard = (plan: Plan) => (
+    <div className={`bg-white text-black rounded-lg shadow-md p-4 flex flex-col ${plan.popular ? 'border-2 border-blue-500' : ''} w-full`}>
+      {plan.popular && (
         <div className="bg-blue-500 text-white text-xs font-bold py-1 px-2 rounded-full self-start mb-2">
           Most popular
         </div>
       )}
-      <h2 className="text-lg font-bold mb-2">{title}</h2>
-      <div className="text-2xl font-bold mb-2">${price}<span className="text-sm font-normal">/month</span></div>
+      <h2 className="text-lg font-bold mb-2">{plan.title}</h2>
+      <div className="text-2xl font-bold mb-2">${plan.price}<span className="text-sm font-normal">/month</span></div>
       <ul className="mb-4 flex-grow text-sm">
-        {features.map((feature, index) => (
+        {plan.features.map((feature, index) => (
           <li key={index} className="flex items-center mb-1">
             <svg className="w-3 h-3 mr-1 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
@@ -33,7 +41,7 @@ export default function Home() {
   );
   
   const PricingPlans = () => {
-    const plans = [
+    const plans:Plan[] = [
       {
         title: "Basic Plan",
         price: "9.99",
@@ -177,30 +185,23 @@ export default function Home() {
         <p>&copy; 2024 Study AI. All rights reserved.</p>
       </footer>
 
-      {showSignUp && (
-        <Modal title="Sign Up" onClose={() => setShowSignUp(false)}>
-          <form className="space-y-4">
-            <input type="text" placeholder="Username" className="w-full px-3 py-2 text-purple-900 rounded" />
-            <input type="email" placeholder="Email" className="w-full px-3 py-2 text-purple-900 rounded" />
-            <input type="password" placeholder="Password" className="w-full px-3 py-2 text-purple-900 rounded" />
-            <button type="submit" className="w-full bg-yellow-400 text-purple-900 py-2 rounded hover:bg-yellow-300 transition-colors">
-              Create Account
-            </button>
-          </form>
-        </Modal>
-      )}
+      <SignedIn>
+        <UserButton/>
+      </SignedIn>
 
-      {showLogin && (
-        <Modal title="Login" onClose={() => setShowLogin(false)}>
-          <form className="space-y-4">
-            <input type="email" placeholder="Email" className="w-full px-3 py-2 text-purple-900 rounded" />
-            <input type="password" placeholder="Password" className="w-full px-3 py-2 text-purple-900 rounded" />
-            <button type="submit" className="w-full bg-yellow-400 text-purple-900 py-2 rounded hover:bg-yellow-300 transition-colors">
-              Log In
-            </button>
-          </form>
-        </Modal>
-      )}
+      <SignedOut>
+          {showSignUp && (
+            <Modal title="Sign Up" onClose={() => setShowSignUp(false)}>
+              <SignUp/>
+            </Modal>
+          )}
+
+          {showLogin && (
+            <Modal title="Login" onClose={() => setShowLogin(false)}>
+              <SignIn/>
+            </Modal>
+          )}
+      </SignedOut>
     </div>
   );
 }
