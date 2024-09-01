@@ -86,122 +86,74 @@ export default function Home() {
     );
   };
 
-  const NavLink = ({ href, text }) => (
-    <a href={href} className="hover:text-yellow-300 transition-colors">{text}</a>
-  );
-  
-  const FeatureCard = ({ Icon, title, description }) => (
-    <div className="bg-white bg-opacity-20 p-6 rounded-lg text-center">
-      <Icon className="mx-auto mb-4 text-yellow-300" size={48} />
-      <h3 className="text-2xl font-semibold mb-2">{title}</h3>
-      <p>{description}</p>
-    </div>
-  );
-  
-  const Modal = ({ title, children, onClose }) => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div className="bg-white text-purple-900 rounded-lg p-6 w-full max-w-md">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">{title}</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
-  
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-700 via-purple-600 to-blue-500 text-white">
-      <header className="container mx-auto px-4 py-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold">Study AI</h1>
-          <div className="flex items-center space-x-4">
-            <nav className="hidden md:flex space-x-6 mr-4">
-              <NavLink href="#" text="Home" />
-              <NavLink href="#" text="Courses" />
-              <NavLink href="#" text="About" />
-              <NavLink href="#" text="Contact" />
+    <div>
+      <div className="bg-[#05192d] text-white">
+        <header className="py-5">
+          <div className="container mx-auto flex justify-between items-center px-5">
+            <div className="text-2xl font-bold text-[#03ef62]">StudyAI</div>
+            <nav className="flex items-center">
+              <SignedOut>
+                <a href="/login" className="border border-white px-3 py-2 rounded mx-5">Sign in</a>
+              </SignedOut>
+              <SignedIn>
+                  <a href="/profile" className="border border-white px-3 py-2 rounded mx-5">My Profile</a>
+                  <UserButton/>
+              </SignedIn>
             </nav>
-            <button 
-              onClick={() => setShowSignUp(true)}
-              className="bg-yellow-400 text-purple-900 px-4 py-2 rounded-full hover:bg-yellow-300 transition-colors"
-            >
-              Sign Up
-            </button>
-            <button 
-              onClick={() => setShowLogin(true)}
-              className="bg-transparent border border-white px-4 py-2 rounded-full hover:bg-white hover:text-purple-700 transition-colors"
-            >
-              Login
-            </button>
           </div>
-        </div>
-      </header>
-
-      <main className="container mx-auto px-4 py-12">
-        <section className="text-center mb-16">
-          <h2 className="text-5xl font-bold mb-4">Welcome to Study AI!</h2>
-          <p className="text-xl mb-8">Embark on an exciting journey to master artificial intelligence.</p>
-          <a href='/lesson'>
-            <button className="bg-yellow-400 text-purple-900 font-bold py-3 px-6 rounded-full hover:bg-yellow-300 transition-colors">
-              Start Learning Now
-            </button>
-          </a>
-        </section>
-
-        <section className="grid md:grid-cols-3 gap-8 mb-16">
-          <FeatureCard 
-            Icon={BookOpen}
-            title="Comprehensive Courses"
-            description="Access a wide range of AI topics tailored for all skill levels."
-          />
-          <FeatureCard 
-            Icon={Rocket}
-            title="Hands-on Projects"
-            description="Apply your knowledge with real-world AI projects and challenges."
-          />
-          <FeatureCard 
-            Icon={Users}
-            title="Community Support"
-            description="Join a vibrant community of AI enthusiasts and experts."
-          />
-        </section>
-
-        <section className="text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to dive in?</h2>
-          <p className="text-xl mb-8">Explore our courses and start your AI learning journey today!</p>
-          <button className="bg-white text-purple-700 font-bold py-3 px-6 rounded-full hover:bg-yellow-100 transition-colors">
-            View Courses
-          </button>
-        </section>
-      </main>
-      <PricingPlans></PricingPlans>
-      <footer className="bg-purple-800 text-center py-4 mt-12">
+        </header>
+        <main className="container mx-auto px-5 py-10">
+          <section className="flex justify-between items-center py-20 relative">
+            <div className="w-1/2 text-center mr-5 relative z-20">
+              <h1 className="text-5xl font-bold mb-5 leading-tight">Learn using StudyAI</h1>
+              <p className="text-lg mb-10 leading-relaxed">
+                Embark on a transformative learning journey with StudyAI. Our cutting-edge AI technology simplifies complex topics, personalizes your study experience, and helps you achieve your academic goals with ease. Say goodbye to study struggles and hello to effortless learning!
+              </p>
+              <div className="flex justify-center gap-5">
+                <a href="#" className="inline-block px-7 py-3 bg-[#03ef62] text-[#05192d] rounded font-bold text-lg transition-all hover:bg-[#02d656] transform hover:-translate-y-1">Start Your Journey</a>
+                <a href="#" className="inline-block px-7 py-3 text-white rounded font-bold text-lg border-2 border-white transition-all hover:bg-white hover:bg-opacity-10 transform hover:-translate-y-1">Explore Features</a>
+              </div>
+            </div>
+            <div className="w-1/2 h-96 flex justify-center items-center text-xl text-white relative z-20">
+              <img 
+                src="/images/kidgoingtoschool.png" 
+                alt="Student using StudyAI" 
+              />
+            </div>
+          </section>
+          <section className="py-20 relative">
+            <h2 className="text-center text-4xl font-bold mb-12 text-[#03ef62]">Why Choose StudyAI?</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              <div className="bg-white bg-opacity-10 p-10 rounded text-center transition-transform transform hover:-translate-y-2">
+                <div className="text-6xl mb-5">🧠</div>
+                <h3 className="text-2xl font-semibold text-white mb-3">Adaptive Learning</h3>
+                <p className="text-lg text-[#cccccc]">Our AI tailors questions to your skill level, ensuring optimal challenge and growth.</p>
+              </div>
+              <div className="bg-white bg-opacity-10 p-10 rounded text-center transition-transform transform hover:-translate-y-2">
+                <div className="text-6xl mb-5">🎯</div>
+                <h3 className="text-2xl font-semibold text-white mb-3">Personalized Experience</h3>
+                <p className="text-lg text-[#cccccc]">Enjoy a unique learning journey crafted specifically for your needs and goals.</p>
+              </div>
+              <div className="bg-white bg-opacity-10 p-10 rounded text-center transition-transform transform hover:-translate-y-2">
+                <div className="text-6xl mb-5">📊</div>
+                <h3 className="text-2xl font-semibold text-white mb-3">Progress Tracking</h3>
+                <p className="text-lg text-[#cccccc]">Monitor your improvement with detailed analytics and insightful feedback.</p>
+              </div>
+            </div>
+            {/* Shapes for Background Decoration */}
+            <div className="absolute top-[-50px] left-[-50px] w-24 h-24 bg-[#03ef62] rounded-lg transform rotate-45 opacity-10 z-0"></div>
+            <div className="absolute bottom-12 right-[-75px] w-36 h-36 bg-[#ff6b6b] rounded-full opacity-10 z-0"></div>
+            <div className="absolute top-1/3 left-10 w-20 h-20 bg-[#feca57] rounded-full opacity-10 z-0"></div>
+            <div className="absolute bottom-1/5 left-5 w-28 h-28 bg-[#48dbfb] rounded-lg transform rotate-12 opacity-10 z-0"></div>
+            <div className="absolute top-1/5 right-[15%] w-16 h-16 bg-[#ff9ff3] rounded-full opacity-10 z-0"></div>
+          </section>
+          <PricingPlans></PricingPlans>
+        </main>
+      </div>
+      <footer className="bg-purple-800 text-center py-4">
         <p>&copy; 2024 Study AI. All rights reserved.</p>
       </footer>
-
-      <SignedIn>
-        <UserButton/>
-      </SignedIn>
-
-      <SignedOut>
-          {showSignUp && (
-            <Modal title="Sign Up" onClose={() => setShowSignUp(false)}>
-              <SignUp/>
-            </Modal>
-          )}
-
-          {showLogin && (
-            <Modal title="Login" onClose={() => setShowLogin(false)}>
-              <SignIn/>
-            </Modal>
-          )}
-      </SignedOut>
     </div>
   );
 }
