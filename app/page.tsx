@@ -7,6 +7,106 @@ export default function Home() {
   const [showSignUp, setShowSignUp] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
 
+  const PricingCard = ({ title, price, features, popular }) => (
+    <div className={`bg-white text-black rounded-lg shadow-md p-4 flex flex-col ${popular ? 'border-2 border-blue-500' : ''} w-full`}>
+      {popular && (
+        <div className="bg-blue-500 text-white text-xs font-bold py-1 px-2 rounded-full self-start mb-2">
+          Most popular
+        </div>
+      )}
+      <h2 className="text-lg font-bold mb-2">{title}</h2>
+      <div className="text-2xl font-bold mb-2">${price}<span className="text-sm font-normal">/month</span></div>
+      <ul className="mb-4 flex-grow text-sm">
+        {features.map((feature, index) => (
+          <li key={index} className="flex items-center mb-1">
+            <svg className="w-3 h-3 mr-1 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            {feature}
+          </li>
+        ))}
+      </ul>
+      <button className="bg-blue-500 text-white font-bold py-1 px-2 rounded text-sm hover:bg-blue-600 transition duration-300">
+        Subscribe Now
+      </button>
+    </div>
+  );
+  
+  const PricingPlans = () => {
+    const plans = [
+      {
+        title: "Basic Plan",
+        price: "9.99",
+        features: [
+          "Access to 5 courses",
+          "Basic quizzes",
+          "Email support"
+        ],
+        popular: false
+      },
+      {
+        title: "Standard Plan",
+        price: "19.99",
+        features: [
+          "Access to 15 courses",
+          "Advanced quizzes",
+          "24/7 support",
+          "Progress tracking"
+        ],
+        popular: true
+      },
+      {
+        title: "Premium Plan",
+        price: "29.99",
+        features: [
+          "All courses",
+          "Advanced quizzes",
+          "Priority support",
+          "Progress tracking",
+          "1-on-1 tutoring"
+        ],
+        popular: false
+      }
+    ];
+  
+    return (
+      <div className="flex flex-row justify-center items-stretch space-x-4 p-4">
+        {plans.map((plan, index) => (
+          <PricingCard key={index} {...plan} />
+        ))}
+      </div>
+    );
+  };
+
+  const NavLink = ({ href, text }) => (
+    <a href={href} className="hover:text-yellow-300 transition-colors">{text}</a>
+  );
+  
+  const FeatureCard = ({ Icon, title, description }) => (
+    <div className="bg-white bg-opacity-20 p-6 rounded-lg text-center">
+      <Icon className="mx-auto mb-4 text-yellow-300" size={48} />
+      <h3 className="text-2xl font-semibold mb-2">{title}</h3>
+      <p>{description}</p>
+    </div>
+  );
+  
+  const Modal = ({ title, children, onClose }) => (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+      <div className="bg-white text-purple-900 rounded-lg p-6 w-full max-w-md">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold">{title}</h2>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+  
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-700 via-purple-600 to-blue-500 text-white">
       <header className="container mx-auto px-4 py-6">
@@ -72,7 +172,7 @@ export default function Home() {
           </button>
         </section>
       </main>
-
+      <PricingPlans></PricingPlans>
       <footer className="bg-purple-800 text-center py-4 mt-12">
         <p>&copy; 2024 Study AI. All rights reserved.</p>
       </footer>
@@ -104,31 +204,3 @@ export default function Home() {
     </div>
   );
 }
-
-const NavLink = ({ href, text }) => (
-  <a href={href} className="hover:text-yellow-300 transition-colors">{text}</a>
-);
-
-const FeatureCard = ({ Icon, title, description }) => (
-  <div className="bg-white bg-opacity-20 p-6 rounded-lg text-center">
-    <Icon className="mx-auto mb-4 text-yellow-300" size={48} />
-    <h3 className="text-2xl font-semibold mb-2">{title}</h3>
-    <p>{description}</p>
-  </div>
-);
-
-const Modal = ({ title, children, onClose }) => (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-    <div className="bg-white text-purple-900 rounded-lg p-6 w-full max-w-md">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">{title}</h2>
-        <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      {children}
-    </div>
-  </div>
-);
