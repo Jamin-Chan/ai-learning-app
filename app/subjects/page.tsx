@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Calculator, BookOpen, Beaker, Globe } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface ContentAreaProps {
   svgContent: JSX.Element;
@@ -11,41 +12,58 @@ interface ContentAreaProps {
   subject?: string;
 }
 
-const GenerateWorksheet = async (subject:string) => {
-
-    try {
+const GenerateWorksheet = async (subject: string) => {
+  try {
+    console.log('the string is', subject);
+    const test = JSON.stringify({subject});
+    console.log("json string version: ", test);
     const response = await fetch("/api/generate", {
-        method: "POST",
-        body: subject,
-    })
-
+      method: "POST",
+      body: JSON.stringify({subject}),
+    });
+    console.log(response)
     if (!response.ok) {
-        throw new Error("Failed to generate worksheet")
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Failed to generate worksheet");
     }
 
-    const data = await response.json()
-    } catch (error) {
-    console.error("Error generating flashcards:", error)
-    alert("An error occurred while generating flashcards. Please try again.")
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error generating worksheet:", error);
+    alert("An error occurred while generating the worksheet. Please try again.");
+    return null;
+  }
+};
+
+const ContentArea: React.FC<ContentAreaProps> = ({ svgContent, title, description, buttonText, subject }) => {
+  const router = useRouter();
+
+  const handleStartNow = async () => {
+    if (subject) {
+      const worksheet = await GenerateWorksheet(subject);
+      if (worksheet) {
+        router.push(`/lesson?subject=${subject}&worksheet=${encodeURIComponent(JSON.stringify(worksheet))}`);
+      }
     }
-}
+  };
 
-
-const ContentArea: React.FC<ContentAreaProps> = ({ svgContent, title, description, buttonText, subject }) => (
-  <div className="content-area flex-1 m-2 min-w-[300px]">
+  return (
+    <div className="content-area flex-1 m-2 min-w-[300px]">
       <div className="content-wrapper border-2 border-white p-5 h-full overflow-hidden relative bg-white text-[#05192d] rounded-lg">
-          {svgContent}
-          <h1 className="text-2xl mb-4 font-bold">{title}</h1>
-          <p className="text-sm leading-6 mb-4">{description}</p>
-          <button 
-            onClick={() => subject ? GenerateWorksheet(subject) : null} 
-            className="cta-button inline-block bg-[#03ef62] text-[#05192d] py-2 px-5 rounded font-bold hover:bg-[#02d656] transition-colors"
-          >
-              {buttonText}
-          </button>
+        {svgContent}
+        <h1 className="text-2xl mb-4 font-bold">{title}</h1>
+        <p className="text-sm leading-6 mb-4">{description}</p>
+        <button 
+          onClick={handleStartNow} 
+          className="cta-button inline-block bg-[#03ef62] text-[#05192d] py-2 px-5 rounded font-bold hover:bg-[#02d656] transition-colors"
+        >
+          {buttonText}
+        </button>
       </div>
-  </div>
-);
+    </div>
+  );
+};
 
 interface ExplanationColumnProps {
   features: Array<{ icon: string; title: string; description: string }>;
