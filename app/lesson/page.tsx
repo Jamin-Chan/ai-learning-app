@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 
 interface Question {
   type: string;
@@ -56,7 +57,12 @@ export default function Lesson() {
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-5">
       <div className="max-w-4xl mx-auto bg-white p-8 shadow-lg rounded-lg">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">AI-Generated Worksheet</h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-800">AI-Generated Worksheet</h1>
+          <Link href="/subjects" className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200">
+            Back to Subjects
+          </Link>
+        </div>
         <form className="space-y-6" onSubmit={handleSubmit}>
           {questions.map((question, index) => (
             <div key={index} className="p-4 bg-gray-50 rounded-lg shadow-sm">

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Calculator, BookOpen, Beaker, Globe } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface ContentAreaProps {
   svgContent: JSX.Element;
@@ -170,7 +171,9 @@ export default function LearningPlatform() {
     <div className="bg-[#05192d] text-white min-h-screen">
             <header className="py-5">
                 <div className="container mx-auto flex justify-between items-center px-5">
-                    <div className="text-2xl font-bold text-[#03ef62]">StudyAI</div>
+                    <Link href="/" className="text-2xl font-bold text-[#03ef62] hover:text-[#02d656] transition-colors">
+                        StudyAI
+                    </Link>
                     <nav className="flex items-center">
                         <div className="signed-out">
                             <a href="/login" className="border border-white px-3 py-2 rounded ml-5">Sign in</a>
