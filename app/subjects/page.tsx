@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Calculator, BookOpen, Beaker, Globe } from 'lucide-react';
 
@@ -6,7 +8,7 @@ interface ContentAreaProps {
   title: string;
   description: string;
   buttonText: string;
-  subject: string;
+  subject?: string;
 }
 
 const GenerateWorksheet = async (subject:string) => {
@@ -31,12 +33,15 @@ const GenerateWorksheet = async (subject:string) => {
 
 const ContentArea: React.FC<ContentAreaProps> = ({ svgContent, title, description, buttonText, subject }) => (
   <div className="content-area flex-1 m-2 min-w-[300px]">
-      <div className="content-wrapper border-2 border-[#333] p-5 h-full overflow-hidden relative">
+      <div className="content-wrapper border-2 border-white p-5 h-full overflow-hidden relative bg-white text-[#05192d] rounded-lg">
           {svgContent}
-          <h1 className="text-2xl mb-4">{title}</h1>
+          <h1 className="text-2xl mb-4 font-bold">{title}</h1>
           <p className="text-sm leading-6 mb-4">{description}</p>
-          <button onClick={GenerateWorksheet(subject)} className="cta-button inline-block bg-[#333] text-white py-2 px-5 rounded font-bold">
-              Start Now
+          <button 
+            onClick={() => subject ? GenerateWorksheet(subject) : null} 
+            className="cta-button inline-block bg-[#03ef62] text-[#05192d] py-2 px-5 rounded font-bold hover:bg-[#02d656] transition-colors"
+          >
+              {buttonText}
           </button>
       </div>
   </div>
@@ -47,7 +52,7 @@ interface ExplanationColumnProps {
 }
 
 const ExplanationColumn: React.FC<ExplanationColumnProps> = ({ features }) => (
-  <div className="explanation-column flex-1 mx-3">
+  <div className="explanation-column flex-1 mx-3 text-[#05192d]">
       {features.map((feature, index) => (
           <div key={index} className="feature-item mb-5">
               <span className="feature-icon text-xl mr-2">{feature.icon}</span>
@@ -144,7 +149,7 @@ export default function LearningPlatform() {
 
 
   return (
-    <div className="bg-[#05192d] text-[#333] min-h-screen">
+    <div className="bg-[#05192d] text-white min-h-screen">
             <header className="py-5">
                 <div className="container mx-auto flex justify-between items-center px-5">
                     <div className="text-2xl font-bold text-[#03ef62]">StudyAI</div>
@@ -166,7 +171,7 @@ export default function LearningPlatform() {
                             <ContentArea key={subject.title} {...subject} />
                         ))}
                     </section>
-                    <section className="explanation-section mt-12 p-8 bg-white border-2 border-[#333] rounded-lg shadow-md">
+                    <section className="explanation-section mt-12 p-8 bg-white rounded-lg shadow-md">
                         <div className="explanation-content flex justify-between">
                             {featureColumns.map((features, index) => (
                                 <ExplanationColumn key={index} features={features} />
